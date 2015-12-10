@@ -61,14 +61,14 @@ class MetVsSumEt(object):
         return x, dx, mean, dmean, sigma, dsigma
         
 
-args = (tree, 50, 0, 1000, 100, -100, 100)
+args = (tree, 50, 0, 2000, 100, -100, 100)
 
 metcalo = MetVsSumEt('calomet_maod_uc', *args) 
-metcalo.format(traditional)
+metcalo.format(traditional_style)
 metcalo.hsigma.Draw()
 
 metpf = MetVsSumEt('pfmet_maod', *args) 
-metpf.format(pf)
+metpf.format(pf_style)
 metpf.hsigma.Draw('same')
 
 legend = TLegend(0.21,0.79, 0.49, 0.92)
