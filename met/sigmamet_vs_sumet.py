@@ -38,7 +38,6 @@ class SumEtResponse(Fitter2D):
                      cut )
         self.fit_slices()
         self.hmean.SetYTitle('#SigmaE_{T} response')
-        self.hchi2 = gDirectory.Get( self.h2d.GetName() + '_chi2' )
 
  
         
