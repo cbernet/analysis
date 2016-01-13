@@ -8,28 +8,6 @@ officialStyle(gStyle)
 rootfile = TFile(sys.argv[1])
 tree = rootfile.Get('events')
 
-class Fitter2D(object):
-    
-    def draw2D(self, *args):
-        self.h2d.Draw(*args)
-        self.hmean.Draw('psame')
-
-            
-    def fit(self, bin, opt='0'): 
-        hslice = self.h2d.ProjectionY("", bin, bin, "")
-        if not hslice.GetEntries(): 
-            return 0., 0., 0., 0., 0., 0.
-        hslice.Fit('gaus', opt)
-        func = hslice.GetFunction('gaus')
-        x = self.h2d.GetXaxis().GetBinCenter(bin)
-        dx = self.h2d.GetXaxis().GetBinWidth(bin)
-        mean = func.GetParameter(1)
-        dmean = func.GetParError(1)
-        sigma = func.GetParameter(2)
-        dsigma = func.GetParError(2)
-        return x, dx, mean, dmean, sigma, dsigma
-    
-
 class MetVsSumEt(Fitter2D): 
     def __init__(self, metname, tree, nx, xmin, xmax, ny, ymin, ymax):
         self.metname = metname
@@ -100,6 +78,8 @@ legend.AddEntry(metcalo.hsigma, 'Calo MET', 'p')
 legend.AddEntry(metpf.hsigma, 'PF MET', 'p')
 legend.Draw('same')
 
+c1.SaveAs('met_sigma_vs_sumet.pdf')
+
 c2 = TCanvas("c2","c2")
 sumetresponse_args = (tree, 50, 0, 2000, 100, 0, 2)
 
@@ -117,3 +97,5 @@ line = TLine(xmin,1.,xmax,1.)
 line.Draw("same")
 
 legend.Draw("same")
+
+c2.SaveAs('met_response_vs_sumet.pdf')
