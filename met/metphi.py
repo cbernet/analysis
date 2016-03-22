@@ -20,25 +20,28 @@ class MetPhiVsSumEt(Fitter2D):
                      '{metname}_phi-genMetTrue_phi:genMetTrue_pt'.format(metname=metname),
                      cut )
         self.fit_slices()
-        self.hsigma.SetYTitle('MET #phi resolution')
+        self.hsigma.SetYTitle('E_{T}^{miss} #phi resolution')
 
 c1 = TCanvas("c1","c1")        
 xmin, xmax = 50, 250
 args = (tree, 20, xmin, xmax, 100, -1, 1)
 
 metcalo = MetPhiVsSumEt('caloMetT1', *args) 
-metcalo.format(traditional_style, 'True MET (GeV)')
+metcalo.format(traditional_style, 'True E_{T}^{miss} (GeV)')
 metcalo.hsigma.Draw()
+metcalo.hsigma.GetYaxis().SetRangeUser(0,0.5)
 
 metpf = MetPhiVsSumEt('pfMetT1', *args) 
 metpf.format(pf_style, 'True MET (GeV)')
 metpf.hsigma.Draw('same')
 
-legend = TLegend(0.62, 0.79, 0.90, 0.92)
-legend.AddEntry(metcalo.hsigma, 'Calo MET', 'p')
-legend.AddEntry(metpf.hsigma, 'PF MET', 'p')
+legend = TLegend(0.69,0.76, 0.88, 0.90)
+legend.AddEntry(metcalo.hsigma, 'Calo', 'p')
+legend.AddEntry(metpf.hsigma, 'PF', 'p')
 legend.Draw('same')
 
-c1.SaveAs('met_phi_vs_sumet.pdf')
+cmsPrel(-1, 13, True)
+
+c1.SaveAs('met_phi_vs_truemet.pdf')
 
  

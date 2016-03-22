@@ -23,7 +23,7 @@ class MetVsSumEt(Fitter2D):
                      '{metname}_py:{metname}_sumet'.format(metname=metname),
                      cut )
         self.fit_slices()
-        self.hsigma.SetYTitle('#sigma(MET_{x,y})')
+        self.hsigma.SetYTitle('#sigma(E_{T}^{miss}) (GeV)')
  
         
 class SumEtResponse(Fitter2D): 
@@ -56,11 +56,12 @@ metpf = MetVsSumEt('pfMetT1', *args)
 metpf.format(pf_style, '#SigmaE_{T} (GeV)')
 metpf.hsigma.Draw('same')
 
-legend = TLegend(0.21,0.79, 0.49, 0.92)
-legend.AddEntry(metcalo.hsigma, 'Calo MET', 'p')
-legend.AddEntry(metpf.hsigma, 'PF MET', 'p')
+legend = TLegend(0.68,0.21, 0.87, 0.35)
+legend.AddEntry(metcalo.hsigma, 'Calo', 'p')
+legend.AddEntry(metpf.hsigma, 'PF', 'p')
 legend.Draw('same')
 
+cmsPrel(-1, 13, True)
 c1.SaveAs('met_sigma_vs_sumet.pdf')
 
 c2 = TCanvas("c2","c2")
@@ -74,11 +75,12 @@ sumetresponse_calo = SumEtResponse('caloMetT1', *sumetresponse_args)
 sumetresponse_calo.format(traditional_style, '#SigmaE_{T} (GeV)')
 sumetresponse_calo.hmean.Draw("same")
 
-sumetresponse_pf.hmean.GetYaxis().SetRangeUser(0.5,1.2)
+sumetresponse_pf.hmean.GetYaxis().SetRangeUser(0.5,1.1)
 
 line = TLine(xmin,1.,xmax,1.)
 line.Draw("same")
 
 legend.Draw("same")
 
+cmsPrel(-1, 13, True)
 c2.SaveAs('met_response_vs_sumet.pdf')
