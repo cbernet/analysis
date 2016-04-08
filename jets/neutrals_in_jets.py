@@ -1,4 +1,5 @@
 from cpyroot import *
+from tdrstyle import tdrstyle
 from ROOT import TFile, TH1F, TPaveText, TLine
 import sys
 import copy
@@ -6,7 +7,7 @@ import copy
 infos = []
 
 def print_jet_info(add_line1=None, add_line2=None, left=False):
-    xmin = 0.6
+    xmin = 0.64
     ymin = 0.58
     if left:
         xmin = 0.22
@@ -25,21 +26,23 @@ def print_jet_info(add_line1=None, add_line2=None, left=False):
         jetinfo.AddText(add_line2)
     else:
         jetinfo.AddText('')        
-    jetinfo.SetTextSizePixels(35)
+    jetinfo.SetTextSizePixels(28)
     jetinfo.SetBorderSize(0)
     jetinfo.SetFillColor(0)
     jetinfo.SetFillStyle(0)
     jetinfo.Draw()
     infos.append(jetinfo) # necessary to save the pavetext... 
 
-officialStyle(gStyle)
+# setTDRStyle()
 
 rootfile = TFile(sys.argv[1])
 events = rootfile.Get('events')
 
 gen_sel = '(jet1_gen_pt>50 && jet1_gen_pt<500 && abs(jet1_gen_eta)<1.3)'
 
-n_for_frac = 1000000
+n_for_frac = 10000
+
+textScale = 1.2
 
 def make_residuals(pdgid, xtitle, jetline):
     hname = 'res_{pdgid}'.format(pdgid=pdgid)
@@ -53,7 +56,7 @@ def make_residuals(pdgid, xtitle, jetline):
     res.Draw()
     res.Scale(1/res.GetEntries())
     res.SetXTitle(xtitle)
-    cmsPrel(-1, 13., True, textScale=1.5)
+    tdrstyle.cmsPrel(-1, 13., True, textScale=textScale)
     print_jet_info(jetline)
     gPad.Update()
     gPad.SaveAs(hname + '.pdf')
@@ -91,7 +94,7 @@ events.Project(hname, var, sel)
 res.Draw()
 res.Scale(1/res.GetEntries())
 res.SetXTitle('(p_{T,#gamma} + p_{T,h^{0}}) / p_{T,h^{0}}^{Ref}')
-cmsPrel(-1, 13., True, textScale=1.5)
+tdrstyle.cmsPrel(-1, 13., True, textScale=textScale)
 print_jet_info('p_{T,h^{0}}^{Ref}/p_{T}^{Ref} > 0.1', 'p_{T, #gamma}^{Ref} = 0')
 gPad.Update()
 gPad.SaveAs(hname + '.pdf')
@@ -106,6 +109,6 @@ neutralprof.Draw()
 line = TLine(0,0,1,1)
 line.SetLineStyle(7)
 line.Draw()
-cmsPrel(-1, 13., True, textScale=1.5)
+tdrstyle.cmsPrel(-1, 13., True, textScale=textScale)
 print_jet_info('p_{T, #gamma}^{Ref} = 0', left=True)
 gPad.SaveAs(neutralprof.GetName() + '.pdf')
