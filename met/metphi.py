@@ -3,7 +3,7 @@ from cpyroot import *
 
 from ROOT import TLine
 
-officialStyle(gStyle)
+from tdrstyle import tdrstyle
 
 rootfile = TFile(sys.argv[1])
 tree = rootfile.Get('events')
@@ -40,7 +40,7 @@ legend.AddEntry(metcalo.hsigma, 'Calo', 'p')
 legend.AddEntry(metpf.hsigma, 'PF', 'p')
 legend.Draw('same')
 
-cmsPrel(-1, 13, True)
+tdrstyle.cmsPrel(-1, 13, True)
 
 c1.SaveAs('met_phi_vs_truemet.pdf')
 
