@@ -66,6 +66,9 @@ def make_residuals(pdgid, xtitle, jetline):
 
 residuals = dict()
 
+cjets = TCanvas('cjets')
+events.Draw('jet_gen_pt', gen_sel)
+
 c211 = TCanvas('c211')
 residuals[211] = make_residuals(211,
                                 '#Sigma p_{T,h^{#pm}} / #Sigma p_{T,h^{#pm}}^{Ref}',
