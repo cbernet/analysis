@@ -20,9 +20,10 @@ class MetPhiVsSumEt(Fitter2D):
                      '{metname}_phi-genMetTrue_phi:genMetTrue_pt'.format(metname=metname),
                      cut )
         self.fit_slices()
-        self.hsigma.SetYTitle('E_{T}^{miss} #phi resolution')
+        self.hsigma.SetYTitle('p_{T}^{miss} #phi resolution')
 
 c1 = TCanvas("c1","c1")        
+
 xmin, xmax = 50, 250
 
 binsize_low = 10
@@ -36,12 +37,12 @@ print xbins
 args = (tree, len(xbins)-1, xbins, 100, -1, 1)
 
 metcalo = MetPhiVsSumEt('caloMetT1', *args) 
-metcalo.format(traditional_style, 'True E_{T}^{miss} (GeV)')
+metcalo.format(traditional_style, 'p_{T,Ref}^{miss} (GeV)')
 metcalo.hsigma.Draw()
 metcalo.hsigma.GetYaxis().SetRangeUser(0,0.5)
 
 metpf = MetPhiVsSumEt('pfMetT1', *args) 
-metpf.format(pf_style, 'True MET (GeV)')
+metpf.format(pf_style, 'Ref MET (GeV)')
 metpf.hsigma.Draw('same')
 
 legend = TLegend(0.69,0.76, 0.88, 0.90)
