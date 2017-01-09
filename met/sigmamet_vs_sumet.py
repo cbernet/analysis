@@ -26,7 +26,7 @@ class MetVsSumEt(Fitter2D):
                      '{metname}_py:genMetTrue_sumet'.format(metname=metname),
                      cut, '', NEVENTS)
         self.fit_slices()
-        self.hsigma.SetYTitle('#sigma(E_{T}^{miss}) (GeV)')
+        self.hsigma.SetYTitle('#sigma(p_{T}^{miss}) (GeV)')
          
         
 class SumEtResponse(Fitter2D): 
@@ -40,7 +40,7 @@ class SumEtResponse(Fitter2D):
                      '{metname}_sumet/genMetTrue_sumet:genMetTrue_sumet'.format(metname=metname),
                      cut, '', NEVENTS)
         self.fit_slices()
-        self.hmean.SetYTitle('#SigmaE_{T} response')
+        self.hmean.SetYTitle('#Sigmap_{T} response')
 
 ## binning 
 
@@ -65,12 +65,12 @@ c2 = TCanvas("c2","c2")
 sumetresponse_args = (tree, len(xbins)-1, xbins, 100, 0, 2)
 
 sumetresponse_pf = SumEtResponse(pfmet_name, *sumetresponse_args) 
-sumetresponse_pf.format(pf_style, 'True #SigmaE_{T} (GeV)')
+sumetresponse_pf.format(pf_style, 'Ref #Sigmap_{T} (GeV)')
 sumetresponse_pf.hmean.Draw()
 sumetresponse_pf.hmean.GetXaxis().SetNdivisions(5)
 
 sumetresponse_calo = SumEtResponse(calomet_name, *sumetresponse_args) 
-sumetresponse_calo.format(traditional_style, 'True #SigmaE_{T} (GeV)')
+sumetresponse_calo.format(traditional_style, 'Ref #Sigmap_{T} (GeV)')
 sumetresponse_calo.hmean.Draw("same")
 
 sumetresponse_pf.hmean.GetYaxis().SetRangeUser(0.5,1.1)
@@ -104,7 +104,7 @@ func = TF1("matthieu", "sqrt( [0]*[0]+ [1]**2 * (x-[2]) + ([3]*(x-[4]))**2 )")
 func.SetLineColor(1)
 
 metcalo = MetVsSumEt(calomet_name, *args) 
-metcalo.format(traditional_style, 'True #SigmaE_{T} (GeV)')
+metcalo.format(traditional_style, 'Ref #Sigmap_{T} (GeV)')
 # metcalo.hsigma.Fit(func,'', '', 500, xmax)
 metcalo.hsigma.Divide(sumetresponse_calo.hmean)
 metcalo.hsigma.Draw()
@@ -115,7 +115,7 @@ metcalo.hsigma.GetYaxis().SetRangeUser(0,65)
 func = TF1("matthieu", "sqrt( [0]*[0]+ ([1]*sqrt(x-[2]))**2 + ([3]*(x-[4]))**2 )")
 func.SetLineColor(1)
 metpf = MetVsSumEt(pfmet_name, *args) 
-metpf.format(pf_style, 'True #SigmaE_{T} (GeV)')
+metpf.format(pf_style, 'Ref #Sigmap_{T} (GeV)')
 metpf.hsigma.Divide(sumetresponse_pf.hmean)
 metpf.hsigma.Draw('same')
 # metpf.hsigma.Fit(func, '', 'same', 50, xmax)
@@ -133,7 +133,7 @@ tdrstyle.cmsPrel(-1)
 latex = TLatex()
 latex.SetNDC()
 latex.SetTextSize(0.04)
-latex.DrawLatex(0.5, 0.2, 'Corrected #SigmaE_{T} response')
+latex.DrawLatex(0.5, 0.2, 'Corrected #Sigmap_{T} response')
 
 c1.SaveAs('met_sigma_vs_sumet.pdf')
 
