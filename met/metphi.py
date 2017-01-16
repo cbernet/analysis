@@ -13,7 +13,7 @@ class MetPhiVsSumEt(Fitter2D):
     
     def __init__(self, metname, tree, *args):
         self.metname = metname
-        cut = 'genMetTrue_pt>50.'.format(metname=metname)
+        cut = 'genMetTrue_pt>70.'.format(metname=metname)
         hname = '{metname}_MetPhi_h2d'.format(metname=metname)
         super(MetPhiVsSumEt,self).__init__( hname, hname, *args)
         tree.Project(self.h2d.GetName(), 

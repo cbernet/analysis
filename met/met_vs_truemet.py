@@ -14,7 +14,7 @@ NEVENTS=sys.maxint
 class MetVSTrue(Fitter2D): 
     def __init__(self, metname, tree, *args):
         self.metname = metname
-        cut = 'genMetTrue_pt>50.'.format(metname=metname)
+        cut = 'genMetTrue_pt>70.'.format(metname=metname)
         # cut = '1'
         hname = '{metname}_MetVSTrue_h2d'.format(metname=metname)
         super(MetVSTrue,self).__init__( hname, hname, *args)

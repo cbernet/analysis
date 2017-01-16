@@ -18,7 +18,7 @@ class MetVsSumEt(Fitter2D):
         self.metname = metname
         # cut = '{metname}_sumet>50. && {metname}_sumet<4000'.format(metname=metname)
         # cut = '1'
-        cut = 'genMetTrue_sumet>50.'.format(metname=metname)
+        cut = 'genMetTrue_sumet>50.'
         hname = '{metname}_h2d'.format(metname=metname)
         super(MetVsSumEt,self).__init__( hname, hname, *args)
         tree.Project(self.h2d.GetName(), 
