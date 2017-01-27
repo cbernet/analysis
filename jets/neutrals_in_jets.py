@@ -15,8 +15,8 @@ def print_jet_info(add_line1=None, add_line2=None, left=False):
     xmax = xmin+0.288
     ymax = ymin+0.331
     jetinfo = TPaveText(xmin,ymin,xmax,ymax, 'ndc')
-    jetinfo.AddText('Anti-k_{T}, R=0.4')
-    jetinfo.AddText('|#eta^{Ref}|<1.3')
+    jetinfo.AddText('Anti-k_{T}, R = 0.4')
+    jetinfo.AddText('|#eta^{Ref}| < 1.3')
     # jetinfo.AddText('')
     if add_line1:
         jetinfo.AddText(add_line1)
@@ -55,7 +55,7 @@ def make_residuals(pdgid, xtitle, jetline):
     print 'var\t', var
     print 'sel\t', sel
     events.Project(hname, var, sel, "", n_for_frac)
-    res.Draw()
+    res.Draw('hist')
     res.Scale(1/res.GetEntries())
     res.SetXTitle(xtitle)
     ytitle = 'p.d.f.'
@@ -67,9 +67,6 @@ def make_residuals(pdgid, xtitle, jetline):
     return res 
 
 residuals = dict()
-
-cjets = TCanvas('cjets')
-events.Draw('jet_gen_pt', gen_sel)
 
 c211 = TCanvas('c211')
 residuals[211] = make_residuals(211,
@@ -98,12 +95,12 @@ print 'sel\t', sel
 events.Draw('>>nophotons', 'jet1_gen_22_num == 0.')
 events.SetEventList(gDirectory.Get('nophotons'))
 events.Project(hname, var, sel)
-res.Draw()
+res.Draw('hist')
 res.Scale(1/res.GetEntries())
 res.SetXTitle('(#Sigma p_{T,#gamma} + #Sigma p_{T,h^{0}}) / #Sigma p_{T,h^{0}}^{Ref}')
 res.SetYTitle('p.d.f.')
 tdrstyle.cmsPrel(-1, None, True, textScale=textScale)
-print_jet_info('#Sigma p_{T,h^{0}}^{Ref}/ p_{T}^{Ref} > 0.1', '#Sigma p_{T, #gamma}^{Ref} = 0')
+print_jet_info('#Sigma p_{T,h^{0}}^{Ref} / p_{T}^{Ref} > 0.1', '#Sigma p_{T, #gamma}^{Ref} = 0')
 gPad.Update()
 gPad.SaveAs(hname + '.pdf')
 
