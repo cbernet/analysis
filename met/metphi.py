@@ -20,7 +20,7 @@ class MetPhiVsSumEt(Fitter2D):
                      '{metname}_phi-genMetTrue_phi:genMetTrue_pt'.format(metname=metname),
                      cut )
         self.fit_slices()
-        self.hsigma.SetYTitle('p_{T}^{miss} #phi resolution')
+        self.hsigma.SetYTitle('p_{T}^{miss} #varphi resolution')
 
 c1 = TCanvas("c1","c1")        
 
